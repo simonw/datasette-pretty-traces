@@ -34,7 +34,7 @@ You can try out the demo here:
 
 ## Screenshot
 
-![Screenshot showing the visualization produced by the plugin](https://user-images.githubusercontent.com/9599/145877989-dddc8be6-5b7c-4cc2-a70a-ca18aea7cd02.png)
+![Screenshot showing the visualization produced by the plugin](https://user-images.githubusercontent.com/9599/145883732-a53accdd-5feb-4629-94cd-f73407c7943d.png)
 
 ## Development
 
