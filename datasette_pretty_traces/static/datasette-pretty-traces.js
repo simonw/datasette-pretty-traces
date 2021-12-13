@@ -26,13 +26,13 @@ document.addEventListener("DOMContentLoaded", () => {
     max_end = Math.max(...jsonData.traces.map((t) => t.end)),
     width_s = max_end - min_start;
   const traceDivs = jsonData.traces.map((trace) => {
-    let trace_width_s = trace.end - trace.start;
-    let ms = trace_width_s * 1000;
-    let w = (trace_width_s / width_s) * 100;
-    var left_s = trace.start - min_start;
-    let left = (left_s / width_s) * 100;
-    var sql = trace.sql.replace(/\n/g, " ");
-    let traceback = trace.traceback.map(
+    const trace_width_s = trace.end - trace.start;
+    const ms = trace_width_s * 1000;
+    const w = (trace_width_s / width_s) * 100;
+    const left_s = trace.start - min_start;
+    const left = (left_s / width_s) * 100;
+    const sql = trace.sql.replace(/\n/g, " ");
+    const traceback = trace.traceback.map(
       (s) => s.split("datasette").slice(-1)[0]
     );
     return `<div
