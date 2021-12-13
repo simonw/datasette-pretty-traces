@@ -25,6 +25,13 @@ Then navigate to any page and add `?_trace=` to the URL:
 
 The plugin will scroll you down the page to the visualized trace information.
 
+## Demo
+
+You can try out the demo here:
+
+- [/?_trace=1](https://latest-with-plugins.datasette.io/?_trace=1) tracing the homepage
+- [/github/commits?_trace=1](https://latest-with-plugins.datasette.io/github/commits?_trace=1) tracing a table page
+
 ## Screenshot
 
 ![Screenshot showing the visualization produced by the plugin](https://user-images.githubusercontent.com/9599/145877989-dddc8be6-5b7c-4cc2-a70a-ca18aea7cd02.png)
