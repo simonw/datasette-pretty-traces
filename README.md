@@ -5,7 +5,7 @@
 [![Tests](https://github.com/simonw/datasette-pretty-traces/workflows/Test/badge.svg)](https://github.com/simonw/datasette-pretty-traces/actions?query=workflow%3ATest)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://github.com/simonw/datasette-pretty-traces/blob/main/LICENSE)
 
-Prettier formatting for ?_trace=1 traces
+Prettier formatting for `?_trace=1` traces
 
 ## Installation
 
@@ -24,6 +24,10 @@ Then navigate to any page and add `?_trace=` to the URL:
     http://localhost:8001/?_trace=1
 
 The plugin will scroll you down the page to the visualized trace information.
+
+## Screenshot
+
+![Screenshot showing the visualization produced by the plugin](https://user-images.githubusercontent.com/9599/145877989-dddc8be6-5b7c-4cc2-a70a-ca18aea7cd02.png)
 
 ## Development
 
