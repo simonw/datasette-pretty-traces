@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const left = (left_s / width_s) * 100;
     const sql = trace.sql.replace(/\n/g, " ");
     const traceback = trace.traceback.map(
-      (s) => s.split("datasette").slice(-1)[0]
+      (s) => s.split("site-packages/").slice(-1)[0]
     );
     return `<div
       style="
