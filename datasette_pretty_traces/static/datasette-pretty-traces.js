@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
       title="${ms.toFixed(2)}ms ${escapeHtml(
       JSON.stringify(traceback, null, 4)
     )}"
-      >${escapeHtml(sql)}
+      >${escapeHtml(trace.database)}: ${escapeHtml(sql)}
         <div style="
           position: absolute;
           top: 0;
