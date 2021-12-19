@@ -35,7 +35,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const traceback = trace.traceback.map(
       (s) => s.split("site-packages/").slice(-1)[0]
     );
+    let paramsHtml = '';
+    if (trace.params) {
+      paramsHtml = '\n\nParameters: ' + escapeHtml(JSON.stringify(trace.params, null, 4));
+    }
     return `<div
+      class="trace-line"
       style="
         position: relative;
         border-bottom: 3px solid white;
@@ -57,10 +62,33 @@ document.addEventListener("DOMContentLoaded", () => {
           height: 1.35em;
           opacity: 0.5"
         ></div>
+    </div>
+    <div class="trace-details" style="display: none">
+      <strong>${ms.toFixed(2)}ms, ${(left_s * 1000).toFixed(2)}ms from start</strong>
+      <pre style="white-space: pre-wrap">
+
+${escapeHtml(trace.sql)}
+
+</pre><pre style="white-space: pre-wrap; color: #808080">
+${escapeHtml(trace.traceback.join("\n"))}${paramsHtml}
+</pre>
     </div>`;
   });
   const output = document.createElement("div");
-  output.style.backgroundCcolor = "#eee;";
+  output.addEventListener("click", (ev) => {
+    ev.preventDefault();
+    let line = ev.target.closest(".trace-line");
+    if (!line) {
+      return;
+    }
+    let details = line.nextElementSibling;
+    if (details.style.display == "block") {
+      details.style.display = "none";
+    } else {
+      details.style.display = "block";
+    }
+  }, true);
+  output.style.backgroundColor = "#eee;";
   output.style.fontFamily = "courier";
   output.style.fontSize = "0.7em";
   output.style.margin = "1em";
