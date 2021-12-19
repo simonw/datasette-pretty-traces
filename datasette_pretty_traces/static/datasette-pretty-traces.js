@@ -39,6 +39,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if (trace.params) {
       paramsHtml = '\n\nParameters: ' + escapeHtml(JSON.stringify(trace.params, null, 4));
     }
+    let many = '';
+    if (trace.executemany && trace.count) {
+      many = `${trace.count}x `;
+    }
     return `<div
       class="trace-line"
       style="
@@ -49,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
       title="${ms.toFixed(2)}ms ${escapeHtml(
       JSON.stringify(traceback, null, 4)
     )}"
-      >${escapeHtml(trace.database)}: ${escapeHtml(sql)}
+      >${escapeHtml(trace.database)}: ${many}${escapeHtml(sql)}
         <div style="
           position: absolute;
           top: 0;
