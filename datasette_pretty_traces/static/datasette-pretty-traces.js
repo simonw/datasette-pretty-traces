@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
       style="
         position: relative;
         border-bottom: 3px solid white;
-        height: 1.6em;
+        height: 1.6em;${trace.error ? " background-color: #fdd;" : ""}
         overflow: hidden"
       title="${ms.toFixed(2)}ms ${escapeHtml(
       JSON.stringify(traceback, null, 4)
@@ -69,9 +69,10 @@ document.addEventListener("DOMContentLoaded", () => {
     </div>
     <div class="trace-details" style="display: none">
       <strong>${ms.toFixed(2)}ms, ${(left_s * 1000).toFixed(2)}ms from start</strong>
+      <span style="color:red">${trace.error || ''}</span>
       <pre style="white-space: pre-wrap">
 
-${escapeHtml(trace.sql)}
+${escapeHtml(trace.sql.trim())}
 
 </pre><pre style="white-space: pre-wrap; color: #808080">
 ${escapeHtml(trace.traceback.join("\n"))}${paramsHtml}
