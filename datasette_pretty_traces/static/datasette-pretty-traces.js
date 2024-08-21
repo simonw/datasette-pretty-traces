@@ -59,13 +59,14 @@ document.addEventListener("DOMContentLoaded", () => {
           top: 0;
           left: ${left}%;
           width: ${w}%;
-          overflow: hidden;
-          background-color: #ccc;
+          background-color: rgba(204, 204, 204, 0.5);
           border: 1px solid black;
           margin-bottom: 2px;
-          height: 1.35em;
-          opacity: 0.5"
-        ></div>
+          height: 1.35em;"
+        >
+          <span style="font-size: 0.8em; padding: 2px; color: red; background-color: pink; position: absolute; top: -2px; left: -7ch;">${(left_s * 1000).toFixed(1)}ms</span>
+          <span style="font-size: 0.8em; padding: 2px; color: blue; background-color: lightblue; position: absolute; top: -2px; left: calc(100% + 1ch)">${ms.toFixed(1)}ms</span>
+        </div>
     </div>
     <div class="trace-details" style="display: none">
       <strong>${ms.toFixed(2)}ms, ${(left_s * 1000).toFixed(2)}ms from start</strong>
