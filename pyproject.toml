@@ -1,0 +1,35 @@
+[project]
+name = "datasette-pretty-traces"
+version = "0.6"
+description = "Prettier formatting for ?_trace=1 traces"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [{name = "Simon Willison"}]
+license = "Apache-2.0"
+classifiers = [
+  "Framework :: Datasette"
+]
+dependencies = ["datasette"]
+
+[project.optional-dependencies]
+test = ["pytest", "pytest-asyncio"]
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project.urls]
+Homepage = "https://github.com/simonw/datasette-pretty-traces"
+Changelog = "https://github.com/simonw/datasette-pretty-traces/releases"
+Issues = "https://github.com/simonw/datasette-pretty-traces/issues"
+CI = "https://github.com/simonw/datasette-pretty-traces/actions"
+
+[project.entry-points.datasette]
+pretty_traces = "datasette_pretty_traces"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["datasette_pretty_traces*"]
+
+[tool.setuptools.package-data]
+datasette_pretty_traces = ["static/*"]
