@@ -97,7 +97,23 @@ ${escapeHtml(trace.traceback.join("\n"))}${paramsHtml}
   output.style.fontFamily = "courier";
   output.style.fontSize = "0.7em";
   output.style.margin = "1em";
-  output.innerHTML = traceDivs.join("\n");
+
+  // Add summary information at the top
+  const summaryHtml = `
+    <div style="
+      padding: 0.5em;
+      margin-bottom: 1em;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      font-size: 1.2em;">
+      <strong>Request time:</strong> ${jsonData.request_duration_ms?.toFixed(2) || 'N/A'} ms |
+      <strong>Total SQL time:</strong> ${jsonData.sum_trace_duration_ms?.toFixed(2) || 'N/A'} ms |
+      <strong>SQL queries:</strong> ${jsonData.num_traces || 0}
+    </div>
+  `;
+
+  output.innerHTML = summaryHtml + traceDivs.join("\n");
   lastPre.insertAdjacentElement("beforebegin", output);
   // Scroll user to that point
   output.scrollIntoView();
