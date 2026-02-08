@@ -1,6 +1,6 @@
 [project]
 name = "datasette-pretty-traces"
-version = "0.6"
+version = "0.7"
 description = "Prettier formatting for ?_trace=1 traces"
 readme = "README.md"
 requires-python = ">=3.10"
