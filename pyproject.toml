@@ -11,8 +11,8 @@ classifiers = [
 ]
 dependencies = ["datasette"]
 
-[project.optional-dependencies]
-test = ["pytest", "pytest-asyncio"]
+[dependency-groups]
+dev = ["pytest", "pytest-asyncio"]
 
 [build-system]
 requires = ["setuptools"]

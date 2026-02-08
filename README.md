@@ -10,15 +10,15 @@ Prettier formatting for `?_trace=1` traces
 ## Installation
 
 Install this plugin in the same environment as Datasette.
-
-    $ datasette install datasette-pretty-traces
-
+```bash
+datasette install datasette-pretty-traces
+```
 ## Usage
 
 Once installed, run Datasette using `--setting trace_debug 1`:
-
-    datasette fixtures.db --setting trace_debug 1
-
+```bash
+datasette fixtures.db --setting trace_debug 1
+```
 Then navigate to any page and add `?_trace=` to the URL:
 
     http://localhost:8001/?_trace=1
@@ -38,20 +38,12 @@ You can try out the demo here:
 
 ## Development
 
-To set up this plugin locally, first checkout the code. Then create a new virtual environment:
-
-    cd datasette-pretty-traces
-    python3 -mvenv venv
-    source venv/bin/activate
-
-Or if you are using `pipenv`:
-
-    pipenv shell
-
-Now install the dependencies and test dependencies:
-
-    pip install -e '.[test]'
-
-To run the tests:
-
-    pytest
+To set up this plugin locally, checkout the code and run the tests with `uv run pytest`:
+```bash
+cd datasette-pretty-traces
+uv run pytest
+```
+To try your development version of plugin run it like this:
+```bash
+uv run datasette fixtures.db --setting trace_debug 1
+```
