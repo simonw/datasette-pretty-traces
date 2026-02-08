@@ -25,6 +25,10 @@ Then navigate to any page and add `?_trace=` to the URL:
 
 The plugin will scroll you down the page to the visualized trace information.
 
+You can also visit the dedicated demo page to see the `fetch()` interception feature in action:
+
+    http://localhost:8001/-/pretty-traces?_trace=1
+
 ## Demo
 
 You can try out the demo here:
