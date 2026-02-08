@@ -32,4 +32,4 @@ where = ["."]
 include = ["datasette_pretty_traces*"]
 
 [tool.setuptools.package-data]
-datasette_pretty_traces = ["static/*"]
+datasette_pretty_traces = ["static/*", "templates/*"]

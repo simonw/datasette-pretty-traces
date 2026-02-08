@@ -1,0 +1,192 @@
+{% extends "base.html" %}
+
+{% block title %}Pretty traces demo{% endblock %}
+
+{% block extra_head %}
+<style>
+  .pt-card {
+    padding: 1em;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background: #fff;
+    margin: 1em 0;
+  }
+  .pt-actions {
+    display: flex;
+    gap: 0.5em;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 0.5em 0 1em 0;
+  }
+  .pt-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1em;
+  }
+  @media (min-width: 900px) {
+    .pt-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .pt-box {
+    margin: 0;
+    padding: 0.75em;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background: #f7f7f7;
+    overflow: auto;
+    max-height: 320px;
+    white-space: pre-wrap;
+    font-size: 0.9em;
+  }
+  .pt-iframe {
+    width: 100%;
+    height: 320px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background: #fff;
+  }
+  table.pt-results {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  table.pt-results th, table.pt-results td {
+    border: 1px solid #ddd;
+    padding: 0.35em 0.5em;
+    vertical-align: top;
+    text-align: left;
+  }
+  table.pt-results th {
+    background: #f1f1f1;
+  }
+  .pt-sql {
+    margin: 0.5em 0;
+    padding: 0.5em;
+    background: #f7f7f7;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    overflow: auto;
+  }
+  .pt-muted {
+    color: #666;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<h1>Pretty traces demo</h1>
+
+<p class="pt-muted">
+  Add <code>?_trace=1</code> to this URL (and run Datasette with <code>--setting trace_debug 1</code>) to see the pretty trace output.
+</p>
+
+<div class="pt-card">
+  <h2>Example SQL queries</h2>
+  <p class="pt-muted">Database: <code>{{ database_name }}</code></p>
+
+  {% for example in examples %}
+    <h3>Query {{ loop.index }}</h3>
+    <pre class="pt-sql">{{ example.sql }}</pre>
+    {% if example.error %}
+      <pre class="pt-box">{{ example.error }}</pre>
+    {% else %}
+      <table class="pt-results">
+        <thead>
+          <tr>
+            {% for col in example.columns %}
+              <th>{{ col }}</th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in example.rows %}
+            <tr>
+              {% for col in example.columns %}
+                <td>{{ row[col] }}</td>
+              {% endfor %}
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% endif %}
+  {% endfor %}
+</div>
+
+<div class="pt-card">
+  <h2>Fetch demos</h2>
+
+  <div class="pt-actions">
+    <button id="pt-fetch-versions">Fetch <code>{{ versions_json_url }}</code></button>
+    <button id="pt-fetch-home">Fetch <code>{{ home_url }}</code></button>
+    <span id="pt-status" class="pt-muted" aria-live="polite"></span>
+  </div>
+
+  <div class="pt-grid">
+    <div>
+      <h3><code>{{ versions_json_url }}</code> (truncated)</h3>
+      <pre id="pt-versions-json" class="pt-box"></pre>
+    </div>
+    <div>
+      <h3><code>{{ home_url }}</code> rendered</h3>
+      <iframe id="pt-home-iframe" class="pt-iframe" sandbox=""></iframe>
+    </div>
+  </div>
+</div>
+
+<script>
+  (() => {
+    const versionsUrl = {{ versions_json_url|tojson }};
+    const homeUrl = {{ home_url|tojson }};
+
+    const btnVersions = document.getElementById("pt-fetch-versions");
+    const btnHome = document.getElementById("pt-fetch-home");
+    const outVersions = document.getElementById("pt-versions-json");
+    const iframe = document.getElementById("pt-home-iframe");
+    const status = document.getElementById("pt-status");
+
+    function setStatus(msg) {
+      status.textContent = msg || "";
+    }
+
+    function truncateText(text, maxChars = 6000) {
+      if (text.length <= maxChars) return text;
+      return (
+        text.slice(0, maxChars) +
+        `\n\n... truncated (${text.length} characters total)`
+      );
+    }
+
+    btnVersions?.addEventListener("click", async () => {
+      setStatus(`Fetching ${versionsUrl}...`);
+      outVersions.textContent = "Loading...";
+      try {
+        const res = await fetch(versionsUrl, {
+          headers: { accept: "application/json" },
+        });
+        const json = await res.json();
+        const pretty = JSON.stringify(json, null, 2);
+        outVersions.textContent = truncateText(pretty);
+        setStatus("");
+      } catch (e) {
+        outVersions.textContent = String(e);
+        setStatus("Fetch failed");
+      }
+    });
+
+    btnHome?.addEventListener("click", async () => {
+      setStatus(`Fetching ${homeUrl}...`);
+      iframe.srcdoc = "";
+      try {
+        const res = await fetch(homeUrl, { headers: { accept: "text/html" } });
+        const html = await res.text();
+        iframe.srcdoc = html;
+        setStatus("");
+      } catch (e) {
+        iframe.srcdoc = `<pre>${String(e).replace(/[<>&]/g, (c) => ({'<':'&lt;','>':'&gt;','&':'&amp;'}[c]))}</pre>`;
+        setStatus("Fetch failed");
+      }
+    });
+  })();
+</script>
+{% endblock %}
+

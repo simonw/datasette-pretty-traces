@@ -48,3 +48,16 @@ async def test_does_not_break_pages_with_no_request():
         assert response.status_code == 200
     finally:
         pm.unregister(name="HelloRoutePlugin")
+
+
+@pytest.mark.asyncio
+async def test_pretty_traces_demo_route():
+    ds = Datasette([], memory=True)
+    response = await ds.client.get("/-/pretty-traces")
+    assert response.status_code == 200
+    assert "Pretty traces demo" in response.text
+    # Basic smoke tests that the interactive elements and example SQL are present
+    assert "pt-fetch-versions" in response.text
+    assert "pt-fetch-home" in response.text
+    assert "/-/versions.json" in response.text
+    assert "select 1 as one" in response.text
